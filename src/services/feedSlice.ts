@@ -47,12 +47,19 @@ const feedSlice = createSlice({
       });
   },
   selectors: {
-    selectIFeedStates: (sliceState: IFeedState) => sliceState.orders,
-    selectIsLoading: (sliceState) => sliceState.isLoading
+    selectFeedOrders: (sliceState: IFeedState) => sliceState.orders,
+    selectFeedIsLoading: (sliceState) => sliceState.isLoading,
+    selectFeedTotal: (sliceState: IFeedState) => sliceState.total,
+    selectFeedTotalToday: (sliceState: IFeedState) => sliceState.totalToday
   }
 });
 
 //экспортируем функции редьюсеры
-export const { selectIFeedStates, selectIsLoading } = feedSlice.selectors;
+export const {
+  selectFeedOrders,
+  selectFeedIsLoading,
+  selectFeedTotal,
+  selectFeedTotalToday
+} = feedSlice.selectors;
 export const { clearOrders } = feedSlice.actions;
 export default feedSlice.reducer;

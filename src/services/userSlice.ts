@@ -5,9 +5,7 @@ import {
   loginUserApi,
   getUserApi,
   updateUserApi,
-  logoutApi,
-  forgotPasswordApi,
-  resetPasswordApi
+  logoutApi
 } from '@api';
 import { TUser } from '@utils-types';
 import { setCookie, deleteCookie } from '../utils/cookie';
@@ -177,5 +175,6 @@ const userSlice = createSlice({
   }
 });
 
+export const { selectUser, selectIsAuthChecked } = userSlice.selectors;
 export const { setAuthChecked, setUser } = userSlice.actions;
 export default userSlice.reducer;

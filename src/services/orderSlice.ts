@@ -105,14 +105,21 @@ const orderSlice = createSlice({
       });
   },
   selectors: {
-    selectOrderState: (sliceState: INewOrderState) => sliceState.orderModalData,
+    selectOrderModalDataState: (sliceState: INewOrderState) =>
+      sliceState.orderModalData,
+    selectOrderRequestState: (sliceState: INewOrderState) =>
+      sliceState.orderRequest,
     selectIsLoading: (sliceState) => sliceState.isLoading,
     selectOrders: (sliceState: INewOrderState) => sliceState.orders
   }
 });
 
 //экспортируем функции редьюсеры
-export const { selectOrderState, selectIsLoading, selectOrders } =
-  orderSlice.selectors;
+export const {
+  selectOrderModalDataState,
+  selectIsLoading,
+  selectOrders,
+  selectOrderRequestState
+} = orderSlice.selectors;
 export const { clearOrders, setOrder } = orderSlice.actions;
 export default orderSlice.reducer;

@@ -51,12 +51,12 @@ const constructorSlice = createSlice({
     }
   },
   selectors: {
-    constructorItems: (sliceState: IConstructorItems) => sliceState.ingredients
+    constructorState: (sliceState: IConstructorItems) => sliceState
   }
 });
 
 //экспортируем функции редьюсеры
-export const { constructorItems } = constructorSlice.selectors;
+export const { constructorState } = constructorSlice.selectors;
 export default constructorSlice.reducer;
 export const {
   addIngredient,
@@ -64,9 +64,3 @@ export const {
   reorderConstructor,
   clearConstructor
 } = constructorSlice.actions;
-
-//Order отдельный слайс
-//const orderRequest = false; ответ с сервера
-
-//const orderModalData = null; ответ с сервера если ответ успешен
-//очистить при закрытии модалки

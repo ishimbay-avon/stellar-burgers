@@ -18,9 +18,7 @@ import { ProtectedRoute } from '../protected-route';
 import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { fetchIngredients } from '../../services/ingredientSlice';
-import { fetchFeeds } from '../../services/feedSlice';
-import { getUserThunk } from '../../services/userSlice';
-//import { getCookie } from '../../utils/cookie';
+import { getUserThunk, setAuthChecked } from '../../services/userSlice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -31,16 +29,14 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
-    dispatch(fetchFeeds());
 
-    //const accessToken = getCookie('accessToken');
-
-    //if (!accessToken) {
-    dispatch(getUserThunk());
-    // .unwrap()
-    // .then(() => {});
-    //}
-  }, []);
+    dispatch(getUserThunk())
+      .unwrap()
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => dispatch(setAuthChecked()));
+  }, [dispatch]);
 
   function closeModal(): void {
     navigate(-1);

@@ -2,21 +2,26 @@ import { FC, useMemo } from 'react';
 import { TIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useSelector } from '../../services/store';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getCookie } from '../../utils/cookie';
 import { useDispatch } from '../../services/store';
-import { clearOrders, orderBurgerThunk } from '../../services/orderSlice';
-import { clearConstructor } from '../../services/constructorSlice';
+import {
+  clearOrders,
+  orderBurgerThunk,
+  selectOrderModalDataState,
+  selectOrderRequestState
+} from '../../services/orderSlice';
+import {
+  clearConstructor,
+  constructorState
+} from '../../services/constructorSlice';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
 
-  //const { bun, ingredients } = useSelector((state) => state.constructorSlice);
-
-  const constructorItems = useSelector((state) => state.constructorSlice);
-  //const constructorItems2 = useSelector(selectOrderState);
+  const constructorItems = useSelector(constructorState);
 
   // const constructorItems = {
   //   bun: {
@@ -25,9 +30,9 @@ export const BurgerConstructor: FC = () => {
   //   ingredients: ingredients
   // };
 
-  const orderRequest = useSelector((state) => state.order.orderRequest);
+  const orderRequest = useSelector(selectOrderRequestState);
 
-  const orderModalData = useSelector((state) => state.order.orderModalData);
+  const orderModalData = useSelector(selectOrderModalDataState);
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;

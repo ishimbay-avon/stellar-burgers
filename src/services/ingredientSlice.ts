@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-//import { fetchPhoto } from "./photoQuery";
 import { TIngredient } from '../utils/types';
 import { getIngredientsApi } from '@api';
 
@@ -24,7 +23,7 @@ export const fetchIngredients = createAsyncThunk(
 );
 
 const ingredientSlice = createSlice({
-  name: 'ingredient',
+  name: 'ingredients',
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {

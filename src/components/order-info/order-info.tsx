@@ -6,14 +6,13 @@ import { useSelector } from '../../services/store';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from '../../services/store';
 import { getOrderByNumberThunk } from '../../services/orderSlice';
-//import {selectIngredients} from '../../services/ingredientSlice';
-//import { useSelector } from 'react-redux';
+import { selectIngredients } from '../../services/ingredientSlice';
 
 export const OrderInfo: FC = () => {
   const dispatch = useDispatch();
   //  const ingredients: TIngredient[] = [];
-  const ingredients = useSelector((state) => state.ingredients.data);
-  console.log('ingredients', ingredients);
+  const ingredients = useSelector(selectIngredients);
+
   /** TODO: взять переменные orderData и ingredients из стора */
   // const orderData = {
   //   createdAt: '',
@@ -27,23 +26,18 @@ export const OrderInfo: FC = () => {
 
   const { number } = useParams();
 
-  let orderData = useSelector((state) =>
-    state.feed.orders.find((item) => item.number === Number(number))
-  );
-  console.log('feed', orderData);
-  if (!orderData) {
-    orderData = useSelector((state) =>
-      state.order.orders?.find((item) => item.number === Number(number))
-    );
-    console.log('order', orderData);
-  }
-  if (!orderData) {
-    const orderByNumber = useSelector((state) => state.order.orderByNumber);
-    if (orderByNumber?.number === Number(number)) {
-      orderData = orderByNumber;
+  let orderData = useSelector((state) => {
+    if (state.feed.orders?.length) {
+      return state.feed.orders.find((item) => item.number === Number(number));
     }
-    console.log('orderByNumber', orderData);
-  }
+    if (state.order.orders?.length) {
+      return state.order.orders?.find((item) => item.number === Number(number));
+    }
+    if (state.order.orderByNumber?.number === Number(number)) {
+      return state.order.orderByNumber;
+    }
+    return null;
+  });
 
   useEffect(() => {
     if (!orderData) {
