@@ -1,21 +1,49 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
+import { useSelector } from '../../services/store';
+import { useParams } from 'react-router-dom';
+import { useDispatch } from '../../services/store';
+import { getOrderByNumberThunk } from '../../services/orderSlice';
+import { selectIngredients } from '../../services/ingredientSlice';
 
 export const OrderInfo: FC = () => {
-  /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  };
+  const dispatch = useDispatch();
+  //  const ingredients: TIngredient[] = [];
+  const ingredients = useSelector(selectIngredients);
 
-  const ingredients: TIngredient[] = [];
+  /** TODO: взять переменные orderData и ingredients из стора */
+  // const orderData = {
+  //   createdAt: '',
+  //   ingredients: [],
+  //   _id: '',
+  //   status: '',
+  //   name: '',
+  //   updatedAt: 'string',
+  //   number: 0
+  // };
+
+  const { number } = useParams();
+
+  let orderData = useSelector((state) => {
+    if (state.feed.orders?.length) {
+      return state.feed.orders.find((item) => item.number === Number(number));
+    }
+    if (state.order.orders?.length) {
+      return state.order.orders?.find((item) => item.number === Number(number));
+    }
+    if (state.order.orderByNumber?.number === Number(number)) {
+      return state.order.orderByNumber;
+    }
+    return null;
+  });
+
+  useEffect(() => {
+    if (!orderData) {
+      dispatch(getOrderByNumberThunk(Number(number)));
+    }
+  }, [dispatch, orderData, number]);
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
