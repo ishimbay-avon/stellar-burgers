@@ -117,12 +117,6 @@ describe('тесты синхронных экшенов', () => {
     expect(addedIngredient.image).toBe(ingredient.image);
     expect(addedIngredient.image_mobile).toBe(ingredient.image_mobile);
     expect(addedIngredient.image_large).toBe(ingredient.image_large);
-    // сравниваем то что получилось с ожидаемым результатом
-    //expect(ingredients).toEqual([ingredient]);
-    // expect(newState.ingredients[0]).toEqual({
-    //   ...ingredient1,
-    //   id: expect.any(String)
-    // });
   });
 
   test('удаление ингредиента', () => {
