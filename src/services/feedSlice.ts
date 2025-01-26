@@ -10,7 +10,7 @@ interface IFeedState {
   error: string | null | undefined;
 }
 
-const initialState: IFeedState = {
+export const initialState: IFeedState = {
   orders: [],
   total: 0,
   totalToday: 0,
@@ -35,9 +35,11 @@ const feedSlice = createSlice({
     builder
       .addCase(fetchFeeds.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(fetchFeeds.rejected, (state, payload) => {
         state.error = payload.error.message;
+        state.isLoading = false;
       })
       .addCase(fetchFeeds.fulfilled, (state, action) => {
         state.isLoading = false;

@@ -10,11 +10,11 @@ interface INewOrderState {
   orders: TOrder[] | null;
   error: string | null | undefined;
   orderByNumber: TOrder | null;
-  orderByNumberIsLoading: boolean;
+  //orderByNumberIsLoading: boolean;
   orderByNumberError: string | null | undefined;
 }
 
-const initialState: INewOrderState = {
+export const initialState: INewOrderState = {
   orderModalData: null,
   name: '',
   isLoading: true,
@@ -22,7 +22,7 @@ const initialState: INewOrderState = {
   orders: null,
   error: null,
   orderByNumber: null,
-  orderByNumberIsLoading: false,
+  // orderByNumberIsLoading: false,
   orderByNumberError: null
 };
 
@@ -78,10 +78,12 @@ const orderSlice = createSlice({
       })
       .addCase(orderBurgerThunk.rejected, (state, payload) => {
         state.error = payload.error.message;
+        state.isLoading = false;
       })
 
       .addCase(getOrdersThunk.rejected, (state, payload) => {
         state.error = payload.error.message;
+        state.isLoading = false;
       })
       .addCase(getOrdersThunk.pending, (state) => {
         state.isLoading = true;
@@ -95,13 +97,14 @@ const orderSlice = createSlice({
 
       .addCase(getOrderByNumberThunk.rejected, (state, payload) => {
         state.orderByNumberError = payload.error.message;
+        state.isLoading = false;
       })
       .addCase(getOrderByNumberThunk.pending, (state) => {
-        state.orderByNumberIsLoading = true;
+        state.isLoading = true;
       })
       .addCase(getOrderByNumberThunk.fulfilled, (state, action) => {
         state.orderByNumber = action.payload.orders[0];
-        state.orderByNumberIsLoading = false;
+        state.isLoading = false;
       });
   },
   selectors: {
